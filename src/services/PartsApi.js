@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5119/api/parts";
+const API_URL = import.meta.env.VITE_API_URL  + "/api/parts";
 
 // Lấy tất cả phụ tùng
 export async function getAllParts() {
