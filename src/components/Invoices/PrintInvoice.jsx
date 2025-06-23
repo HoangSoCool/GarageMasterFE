@@ -101,7 +101,7 @@ export default function PrintInvoice(props) {
     };
 
     try {
-      const res = await fetch(`${API_BASE}/api/Invoice`, {
+      const res = await fetch(`${API_BASE}/api/invoices`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
