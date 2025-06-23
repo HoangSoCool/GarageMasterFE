@@ -28,14 +28,14 @@ export async function createInvoice({ customerId, repairOrderId, paymentMethod }
 
 // Lấy chi tiết hóa đơn theo id
 export async function getInvoiceById(id) {
-  const res = await fetch(`${API_BASE}/${id}`, { headers: getAuthHeaders() });
+  const res = await fetch(`${API_URL}/${id}`, { headers: getAuthHeaders() });
   if (!res.ok) throw new Error("Lỗi lấy chi tiết hóa đơn");
   return res.json();
 }
 
 // Lấy hóa đơn của người dùng hiện tại
 export async function getMyInvoices() {
-  const res = await fetch(`${API_BASE}/my`, { headers: getAuthHeaders() });
+  const res = await fetch(`${API_URL}/my`, { headers: getAuthHeaders() });
   if (!res.ok) throw new Error("Lỗi lấy hóa đơn của bạn");
   return res.json();
 }
