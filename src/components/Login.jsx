@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5119/api/auth";
-
+const API_BASE_URL = import.meta.env.VITE_API_URL  + "/api/auth";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

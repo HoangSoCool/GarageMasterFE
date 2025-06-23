@@ -1,6 +1,4 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL  + "/api/auth";
-
-
 /**
  * Gửi yêu cầu API chung
  * @param {string} endpoint
