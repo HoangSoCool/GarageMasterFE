@@ -153,6 +153,33 @@ export default function PrintInvoice(props) {
             ))}
           </select>
         </div>
+        
+        {/* Add repair order selection dropdown */}
+        <div>
+          <label className="font-semibold flex items-center gap-2 mb-1">
+            <ClipboardList size={18} /> Chọn phiếu sửa chữa
+          </label>
+          <select
+            className="w-full border rounded-xl px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-300"
+            value={selectedOrder}
+            onChange={e => {
+              setSelectedOrder(e.target.value);
+              setInvoice(null);
+            }}
+            disabled={!selectedCustomer || repairOrders.length === 0}
+          >
+            <option value="">-- Chọn phiếu sửa chữa --</option>
+            {repairOrders.map(order => (
+              <option key={order.id} value={order.id}>
+                #{order.id} - {new Date(order.checkInTime).toLocaleDateString()} - {order.vehicleMake} {order.vehicleModel}
+              </option>
+            ))}
+          </select>
+          {selectedCustomer && repairOrders.length === 0 && (
+            <p className="text-red-500 text-sm mt-1">Không có phiếu sửa chữa hoàn thành nào cho khách hàng này</p>
+          )}
+        </div>
+        
         <div>
           <label className="font-semibold flex items-center gap-2 mb-1">
             <CreditCard size={18} /> Hình thức thanh toán
