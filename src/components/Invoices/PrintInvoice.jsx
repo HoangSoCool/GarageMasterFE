@@ -70,7 +70,10 @@ export default function PrintInvoice(props) {
   }, []);
 
   // Xử lý tạo hóa đơn mới
-  const handleCreateInvoice = async () => {
+  const handleCreateInvoice = async (e) => {
+    // Prevent default form submission behavior
+    if (e) e.preventDefault();
+    
     if (!selectedCustomer || !selectedOrder) {
       alert("Bạn phải chọn khách hàng và phiếu sửa chữa!");
       return;
@@ -198,6 +201,7 @@ export default function PrintInvoice(props) {
           className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-2 rounded-xl font-bold shadow-md transition"
           onClick={handleCreateInvoice}
           disabled={!selectedCustomer || !selectedOrder}
+          type="button" // Add type="button" to prevent form submission
         >
           <DollarSign className="inline mr-1" size={18} /> Tạo hóa đơn
         </button>
