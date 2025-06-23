@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:5119/api/order";
-
+const API_URL = import.meta.env.VITE_API_URL  + "/api/order";
 // Tạo đơn hàng mới
 export async function createOrder(order) {
   const token = localStorage.getItem("token");
@@ -18,7 +17,7 @@ export async function createOrder(order) {
 // Lấy danh sách đơn hàng theo user
 export async function getOrdersByUser(userId) {
   const token = localStorage.getItem("token");
-  const res = await fetch(`http://localhost:5119/api/order/user/${userId}`, {
+  const res = await fetch(`${API_URL}/user/${userId}`, {
     headers: {
       "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json"

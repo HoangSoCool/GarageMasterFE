@@ -34,7 +34,7 @@ export default function PrintInvoice(props) {
   // Lấy danh sách khách hàng khi load component
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5119/api/customers", {
+    fetch(import.meta.env.VITE_API_URL  + "/api/customers", {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then(res => (res.status === 204 ? null : res.json()))
@@ -42,11 +42,12 @@ export default function PrintInvoice(props) {
       .catch(console.error);
   }, []);
 
+  const API_BASE = import.meta.env.VITE_API_URL;
   // Lấy danh sách phiếu sửa chữa đã hoàn thành của khách hàng được chọn
   useEffect(() => {
     if (selectedCustomer) {
       const token = localStorage.getItem("token");
-      fetch(`http://localhost:5119/api/repairorders?customerId=${selectedCustomer}`, {
+      fetch(`${API_BASE}/api/repairorders?customerId=${selectedCustomer}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       })
         .then(res => (res.status >= 400 ? [] : res.json()))
@@ -60,7 +61,7 @@ export default function PrintInvoice(props) {
   // Lấy danh sách nhân viên khi load component
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5119/api/employees", {
+    fetch(import.meta.env.VITE_API_URL  + "/api/employees", {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then(res => res.json())
@@ -81,7 +82,7 @@ export default function PrintInvoice(props) {
       paymentMethod: selectedPayment,
     };
     try {
-      const res = await fetch("http://localhost:5119/api/invoices", {
+      const res = await fetch(import.meta.env.VITE_API_URL  + "/api/invoices", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
