@@ -1,5 +1,5 @@
 export const  API_BASE_URL = import.meta.env.VITE_API_URL  + "/api/auth";
-const API_URL = `${API_BASE_URL}/customers`;
+const API_URL = `${API_BASE_URL}/customer`;
 
 // Lấy tất cả khách hàng
 export async function getAllCustomers() {
