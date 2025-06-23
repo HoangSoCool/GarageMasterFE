@@ -11,7 +11,7 @@ export async function getAllEmployees() {
 export async function registerEmployee(data) {
   // Đăng ký nhân viên mới
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:5119/api/v1/employees/register", {
+  const res = await fetch(import.meta.env.VITE_API_URL  + "/api/v1/employees/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,11 +22,11 @@ export async function registerEmployee(data) {
   if (!res.ok) throw new Error("Thêm nhân viên thất bại");
   return res.json();
 }
-
+const API_BASE = import.meta.env.VITE_API_URL
 export async function deleteEmployee(id) {
   // Xóa nhân viên theo id
   const token = localStorage.getItem("token");
-  const res = await fetch(`http://localhost:5119/api/v1/employees/${id}`, {
+  const res = await fetch(`${API_BASE}/api/v1/employees/${id}`, {
     method: "DELETE",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -38,7 +38,7 @@ export async function deleteEmployee(id) {
 export async function updateEmployee(id, data) {
   // Cập nhật thông tin nhân viên
   const token = localStorage.getItem("token");
-  const res = await fetch(`http://localhost:5119/api/v1/employees/${id}`, {
+  const res = await fetch(`${API_BASE}/api/v1/employees/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
