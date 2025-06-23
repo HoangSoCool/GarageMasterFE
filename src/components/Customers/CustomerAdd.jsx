@@ -12,7 +12,7 @@ import {
 // Gọi API tạo khách hàng mới
 const createCustomer = async (customerData) => {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:5119/api/customers", {
+  const res = await fetch(import.meta.env.VITE_API_URL  + "/api/customers", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
