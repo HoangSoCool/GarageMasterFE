@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5119/api/repairorder";
+const API_URL = import.meta.env.VITE_API_URL  + "/api/repairorder";
 
 export async function getAllRepairOrders() {
   const token = localStorage.getItem("token");
