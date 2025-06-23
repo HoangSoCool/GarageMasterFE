@@ -70,37 +70,25 @@ export default function PrintInvoice(props) {
   }, []);
 
   // Xử lý tạo hóa đơn mới
-  const handleCreateInvoice = async (e) => {
-    // Ngăn chặn mọi hành vi mặc định và chuyển hướng
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();  // Thêm dòng này để ngăn chặn sự kiện lan ra ngoài
-    }
-    
+  const handleCreateInvoice = async () => {
     if (!selectedCustomer || !selectedOrder) {
       alert("Bạn phải chọn khách hàng và phiếu sửa chữa!");
       return;
     }
-    
+    const token = localStorage.getItem("token");
+    const body = {
+      customerId: selectedCustomer,
+      repairOrderId: selectedOrder,
+      paymentMethod: selectedPayment,
+    };
     try {
-      const token = localStorage.getItem("token");
-      console.log("Đang gửi yêu cầu tạo hóa đơn...", {
-        customerId: selectedCustomer,
-        repairOrderId: selectedOrder,
-        paymentMethod: selectedPayment,
-      });
-      
       const res = await fetch(`${API_BASE}/api/invoices`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({
-          customerId: selectedCustomer,
-          repairOrderId: selectedOrder,
-          paymentMethod: selectedPayment,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (res.ok) {
@@ -145,7 +133,7 @@ export default function PrintInvoice(props) {
         <ClipboardList className="inline mr-2" /> Tạo/In hóa đơn
       </h2>
 
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-sm sm:text-base">
+      <div className="space-y-4 text-sm sm:text-base">
         <div>
           <label className="font-semibold flex items-center gap-2 mb-1">
             <User size={18} /> Chọn khách hàng
@@ -165,33 +153,6 @@ export default function PrintInvoice(props) {
             ))}
           </select>
         </div>
-        
-        {/* Add repair order selection dropdown */}
-        <div>
-          <label className="font-semibold flex items-center gap-2 mb-1">
-            <ClipboardList size={18} /> Chọn phiếu sửa chữa
-          </label>
-          <select
-            className="w-full border rounded-xl px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-300"
-            value={selectedOrder}
-            onChange={e => {
-              setSelectedOrder(e.target.value);
-              setInvoice(null);
-            }}
-            disabled={!selectedCustomer || repairOrders.length === 0}
-          >
-            <option value="">-- Chọn phiếu sửa chữa --</option>
-            {repairOrders.map(order => (
-              <option key={order.id} value={order.id}>
-                #{order.id} - {new Date(order.checkInTime).toLocaleDateString()} - {order.vehicleMake} {order.vehicleModel}
-              </option>
-            ))}
-          </select>
-          {selectedCustomer && repairOrders.length === 0 && (
-            <p className="text-red-500 text-sm mt-1">Không có phiếu sửa chữa hoàn thành nào cho khách hàng này</p>
-          )}
-        </div>
-        
         <div>
           <label className="font-semibold flex items-center gap-2 mb-1">
             <CreditCard size={18} /> Hình thức thanh toán
@@ -208,18 +169,12 @@ export default function PrintInvoice(props) {
 
         <button
           className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-2 rounded-xl font-bold shadow-md transition"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleCreateInvoice(e);
-            return false; // Thêm dòng này để đảm bảo không có hành vi mặc định
-          }}
+          onClick={handleCreateInvoice}
           disabled={!selectedCustomer || !selectedOrder}
-          type="button"
         >
           <DollarSign className="inline mr-1" size={18} /> Tạo hóa đơn
         </button>
-      </form>
+      </div>
 
       {invoice && (
         <div className="mt-8 border-t pt-6" ref={printRef}>
