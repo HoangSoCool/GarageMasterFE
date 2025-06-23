@@ -1,5 +1,4 @@
 const API_URL = import.meta.env.VITE_API_URL  + "/api/invoices";
-
 // Lấy token từ localStorage để tạo header xác thực
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
@@ -8,14 +7,14 @@ function getAuthHeaders() {
 
 // Lấy danh sách hóa đơn
 export async function getAllInvoices() {
-  const res = await fetch(API_BASE, { headers: getAuthHeaders() });
+  const res = await fetch(API_URL, { headers: getAuthHeaders() });
   if (!res.ok) throw new Error("Lỗi lấy danh sách hóa đơn");
   return res.json();
 }
 
 // Tạo hóa đơn mới
 export async function createInvoice({ customerId, repairOrderId, paymentMethod }) {
-  const res = await fetch(API_BASE, {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
