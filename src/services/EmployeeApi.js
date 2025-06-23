@@ -1,7 +1,7 @@
 export async function getAllEmployees() {
   // Lấy danh sách nhân viên
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:5119/api/v1/employees", {
+  const res = await fetch(import.meta.env.VITE_API_URL  + "/api/v1/employees", {
     headers: { "Authorization": `Bearer ${token}` }
   });
   if (!res.ok) throw new Error("Không lấy được danh sách nhân viên");
