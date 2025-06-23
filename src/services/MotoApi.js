@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:5119/api/motos";
-
+const API_URL = import.meta.env.VITE_API_URL  + "/api/motos";
 // Lấy tất cả xe
 export async function getAllMotos() {
   const token = localStorage.getItem("token");
