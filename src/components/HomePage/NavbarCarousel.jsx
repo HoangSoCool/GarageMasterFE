@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 const images = [
-  "/public/image5.jpg",
-  "/public/image6.jpg",
-  "/public/image7.jpg",
-  "/public/image8.jpg",
+  "/image5.jpg",
+  "/image6.jpg",
+  "/image7.jpg",
+  "/image8.jpg",
 ];
 
 const captions = [
