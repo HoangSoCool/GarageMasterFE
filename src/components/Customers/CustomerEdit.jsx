@@ -9,11 +9,11 @@ import {
   XCircle,
   User,
 } from "lucide-react";
-
+const API_BASE = import.meta.env.VITE_API_URL
 // Gọi API cập nhật khách hàng
 const updateCustomer = async (id, customerData) => {
   const token = localStorage.getItem("token");
-  const res = await fetch(`http://localhost:5119/api/customers/${id}`, {
+  const res = await fetch(`${API_BASE}/api/customers/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
