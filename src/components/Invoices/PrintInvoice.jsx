@@ -71,27 +71,36 @@ export default function PrintInvoice(props) {
 
   // Xử lý tạo hóa đơn mới
   const handleCreateInvoice = async (e) => {
-    // Prevent default form submission behavior
-    if (e) e.preventDefault();
+    // Ngăn chặn mọi hành vi mặc định và chuyển hướng
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();  // Thêm dòng này để ngăn chặn sự kiện lan ra ngoài
+    }
     
     if (!selectedCustomer || !selectedOrder) {
       alert("Bạn phải chọn khách hàng và phiếu sửa chữa!");
       return;
     }
-    const token = localStorage.getItem("token");
-    const body = {
-      customerId: selectedCustomer,
-      repairOrderId: selectedOrder,
-      paymentMethod: selectedPayment,
-    };
+    
     try {
+      const token = localStorage.getItem("token");
+      console.log("Đang gửi yêu cầu tạo hóa đơn...", {
+        customerId: selectedCustomer,
+        repairOrderId: selectedOrder,
+        paymentMethod: selectedPayment,
+      });
+      
       const res = await fetch(`${API_BASE}/api/invoices`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          customerId: selectedCustomer,
+          repairOrderId: selectedOrder,
+          paymentMethod: selectedPayment,
+        }),
       });
 
       if (res.ok) {
@@ -136,7 +145,7 @@ export default function PrintInvoice(props) {
         <ClipboardList className="inline mr-2" /> Tạo/In hóa đơn
       </h2>
 
-      <div className="space-y-4 text-sm sm:text-base">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-sm sm:text-base">
         <div>
           <label className="font-semibold flex items-center gap-2 mb-1">
             <User size={18} /> Chọn khách hàng
@@ -199,13 +208,18 @@ export default function PrintInvoice(props) {
 
         <button
           className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-2 rounded-xl font-bold shadow-md transition"
-          onClick={handleCreateInvoice}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleCreateInvoice(e);
+            return false; // Thêm dòng này để đảm bảo không có hành vi mặc định
+          }}
           disabled={!selectedCustomer || !selectedOrder}
-          type="button" // Add type="button" to prevent form submission
+          type="button"
         >
           <DollarSign className="inline mr-1" size={18} /> Tạo hóa đơn
         </button>
-      </div>
+      </form>
 
       {invoice && (
         <div className="mt-8 border-t pt-6" ref={printRef}>
