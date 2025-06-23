@@ -12,6 +12,7 @@ import {
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function PrintInvoice(props) {
   const query = useQuery();
@@ -34,7 +35,7 @@ export default function PrintInvoice(props) {
   // Lấy danh sách khách hàng khi load component
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(import.meta.env.VITE_API_URL  + "/api/customers", {
+    fetch(`${API_BASE}/api/customers`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then(res => (res.status === 204 ? null : res.json()))
@@ -42,12 +43,11 @@ export default function PrintInvoice(props) {
       .catch(console.error);
   }, []);
 
-  const API_BASE = import.meta.env.VITE_API_URL;
   // Lấy danh sách phiếu sửa chữa đã hoàn thành của khách hàng được chọn
   useEffect(() => {
     if (selectedCustomer) {
       const token = localStorage.getItem("token");
-      fetch(`${API_BASE}/api/repairorders?customerId=${selectedCustomer}`, {
+      fetch(`${API_BASE}/api/repairorders?customerId=${(selectedCustomer)}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       })
         .then(res => (res.status >= 400 ? [] : res.json()))
@@ -61,7 +61,7 @@ export default function PrintInvoice(props) {
   // Lấy danh sách nhân viên khi load component
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(import.meta.env.VITE_API_URL  + "/api/employees", {
+    fetch(`${API_BASE}/api/employees`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then(res => res.json())
@@ -82,7 +82,7 @@ export default function PrintInvoice(props) {
       paymentMethod: selectedPayment,
     };
     try {
-      const res = await fetch(import.meta.env.VITE_API_URL  + "/api/invoices", {
+      const res = await fetch(`${API_BASE}/api/invoices`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
