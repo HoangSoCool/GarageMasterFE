@@ -82,7 +82,7 @@ export default function PrintInvoice(props) {
       paymentMethod: selectedPayment,
     };
     try {
-      const res = await fetch(import.meta.env.VITE_API_URL  + "/api/invoices", {
+      const res = await fetch(import.meta.env.VITE_API_URL  + "/api/invoice", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
