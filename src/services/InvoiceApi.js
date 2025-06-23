@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5119/api/invoices";
+const API_URL = import.meta.env.VITE_API_URL  + "/api/invoices";
 
 // Lấy token từ localStorage để tạo header xác thực
 function getAuthHeaders() {
