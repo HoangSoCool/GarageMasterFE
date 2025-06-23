@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5119/api/reviews";
+const API_URL = import.meta.env.VITE_API_URL + "/api/reviews";
 
 // Lấy tất cả đánh giá
 export async function getAllReviews() {
